@@ -1,5 +1,10 @@
 ---
 title: "seqinr_tutorial"
+knit: (function(input_file, encoding) {
+  out_dir <- 'docs';
+  rmarkdown::render(input_file,
+ encoding=encoding,
+ output_file=file.path(dirname(input_file), out_dir, 'index.html'))})
 output:
   html_document:
     df_print: paged
@@ -72,7 +77,7 @@ c2s(charc)
 
 ####20-dist.alignment():calculates pairwise distance of two aligned sequences
 ```{r}
-carps <- read.alignment("../MDAuR-master/Chapter_02/data/vertebrate_CARPs.aln",format="clustal")
+carps <- read.alignment("../molecular_data_analysis_using_r/MDAuR-master/Chapter_02/data/vertebrate_CARPs.aln",format="clustal")
 dali <- dist.alignment(carps,matrix = "identity")
 density(dali)
 plot(density(dali))#distribution of values in pairwise-distance matrix
@@ -146,7 +151,7 @@ codon_prop <- codon_freq/sum(codon_freq)
 barplot(codon_prop, las = 2)#plot the the frequency of codons on the sequence
 
 #read the fasta file
-hm_ttn_fa <- read.fasta(file = "../MDAuR-master/Chapter_02/data/human_ttn_genomic_dna.fasta",seqtype = "DNA",strip.desc = TRUE)
+hm_ttn_fa <- read.fasta(file = "../molecular_data_analysis_using_r/MDAuR-master/Chapter_02/data/human_ttn_genomic_dna.fasta",seqtype = "DNA",strip.desc = TRUE)
 #extract the sequecne only for further analysis
 hm_ttn_seq_1 <- hm_ttn_fa[[1]]
 #..or
@@ -225,7 +230,7 @@ pmw(seqAA[[1]])
 align_file <- system.file("sequences/test.aln", package = "seqinr")
 align_seq <- read.alignment(align_file, format = "clustal")
 
-carps<-read.alignment("../MDAuR-master/Chapter_02/data/vertebrate_CARPs.aln",format="clustal")
+carps<-read.alignment("../molecular_data_analysis_using_r/MDAuR-master/Chapter_02/data/vertebrate_CARPs.aln",format="clustal")
 str(carps)
 carps$nb
 carps$nam
@@ -235,7 +240,7 @@ carps$nam
 ####15-read.fasta():read fasta format files
 ```{r}
 file_name_fa <- "Acinetobacter_ADP1_uid6159.fasta"
-fastafile <- read.fasta(file = file_name_fa,
+fastafile <- read.fasta(file = "../molecular_data_analysis_using_r/R_project/Acinetobacter_ADP1_uid6159.fasta",
                         as.string = TRUE,
                         set.attributes = FALSE,
                         seqtype = "DNA"
@@ -277,12 +282,12 @@ ls()
 #choosebank("refseq")
 #bb <- query("bb", " sp=Borrelia burgdorferi")
 
-hoxb1_protein <- read.fasta("../MDAuR-master/Chapter_02/data/human_hoxb1_protein.fasta",seqtype = "AA")
+hoxb1_protein <- read.fasta("../molecular_data_analysis_using_r/MDAuR-master/Chapter_02/data/human_hoxb1_protein.fasta",seqtype = "AA")
 #frequency analysis
 table(hoxb1_protein)
 sort(table(hoxb1_protein))
 #make the sequence a single string, instead of single-character array
-hoxb1_protein <- read.fasta("../MDAuR-master/Chapter_02/data/human_hoxb1_protein.fasta", 
+hoxb1_protein <- read.fasta("../molecular_data_analysis_using_r/MDAuR-master/Chapter_02/data/human_hoxb1_protein.fasta", 
                             seqtype = "AA", 
                             strip.desc = TRUE,#remove ">" at the begining of annotation
                             as.string = TRUE,
@@ -304,7 +309,7 @@ translate(s2c("TAGATAAGCGTGTTTGTTTCCCCCCCGTAGTGTGTAAGTGTACGGGGGTAG"),
           numcode = 1#select the genetic code. The basic is 1, besides 23 others
           )
 #reading multi-record fasta file
-multi_hoxb1_protein <- read.fasta("../MDAuR-master/Chapter_02/data/multi_hoxb1_protein.fasta",
+multi_hoxb1_protein <- read.fasta("../molecular_data_analysis_using_r/MDAuR-master/Chapter_02/data/multi_hoxb1_protein.fasta",
                                   seqtype = "AA",
                                   strip.desc = TRUE,
                                   set.attributes = F,
