@@ -1,0 +1,12 @@
+name: "seqinr_tutorial"
+output_dir: "docs"
+navbar:
+  title: "seqinr_tutorial"
+  left:
+  - text: "Home"
+    href: index.html
+  - text: "tutorial exploring seqinr package"
+    href: seqinr_tutorial.html
+output:
+  html_document:
+    theme: cosmo
