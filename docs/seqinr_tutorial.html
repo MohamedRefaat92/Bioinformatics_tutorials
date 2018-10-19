@@ -1,0 +1,930 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+
+<meta charset="utf-8" />
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="generator" content="pandoc" />
+
+
+
+
+<title>seqinr_tutorial</title>
+
+<script src="site_libs/jquery-1.11.3/jquery.min.js"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<link href="site_libs/bootstrap-3.3.5/css/cosmo.min.css" rel="stylesheet" />
+<script src="site_libs/bootstrap-3.3.5/js/bootstrap.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/html5shiv.min.js"></script>
+<script src="site_libs/bootstrap-3.3.5/shim/respond.min.js"></script>
+<script src="site_libs/navigation-1.1/tabsets.js"></script>
+<link href="site_libs/highlightjs-1.1/default.css" rel="stylesheet" />
+<script src="site_libs/highlightjs-1.1/highlight.js"></script>
+
+<style type="text/css">code{white-space: pre;}</style>
+<style type="text/css">
+  pre:not([class]) {
+    background-color: white;
+  }
+</style>
+<script type="text/javascript">
+if (window.hljs && document.readyState && document.readyState === "complete") {
+   window.setTimeout(function() {
+      hljs.initHighlighting();
+   }, 0);
+}
+</script>
+
+
+
+<style type="text/css">
+h1 {
+  font-size: 34px;
+}
+h1.title {
+  font-size: 38px;
+}
+h2 {
+  font-size: 30px;
+}
+h3 {
+  font-size: 24px;
+}
+h4 {
+  font-size: 18px;
+}
+h5 {
+  font-size: 16px;
+}
+h6 {
+  font-size: 12px;
+}
+.table th:not([align]) {
+  text-align: left;
+}
+</style>
+
+
+</head>
+
+<body>
+
+<style type = "text/css">
+.main-container {
+  max-width: 940px;
+  margin-left: auto;
+  margin-right: auto;
+}
+code {
+  color: inherit;
+  background-color: rgba(0, 0, 0, 0.04);
+}
+img {
+  max-width:100%;
+  height: auto;
+}
+.tabbed-pane {
+  padding-top: 12px;
+}
+button.code-folding-btn:focus {
+  outline: none;
+}
+</style>
+
+
+<style type="text/css">
+/* padding for bootstrap navbar */
+body {
+  padding-top: 51px;
+  padding-bottom: 40px;
+}
+/* offset scroll position for anchor links (for fixed navbar)  */
+.section h1 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+
+.section h2 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h3 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h4 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h5 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+.section h6 {
+  padding-top: 56px;
+  margin-top: -56px;
+}
+</style>
+
+<script>
+// manage active state of menu based on current page
+$(document).ready(function () {
+  // active menu anchor
+  href = window.location.pathname
+  href = href.substr(href.lastIndexOf('/') + 1)
+  if (href === "")
+    href = "index.html";
+  var menuAnchor = $('a[href="' + href + '"]');
+
+  // mark it active
+  menuAnchor.parent().addClass('active');
+
+  // if it's got a parent navbar menu mark it active as well
+  menuAnchor.closest('li.dropdown').addClass('active');
+});
+</script>
+
+
+<div class="container-fluid main-container">
+
+<!-- tabsets -->
+<script>
+$(document).ready(function () {
+  window.buildTabsets("TOC");
+});
+</script>
+
+<!-- code folding -->
+
+
+
+
+
+
+<div class="navbar navbar-default  navbar-fixed-top" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar">
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="index.html">seqinr_tutorial</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li>
+  <a href="index.html">Home</a>
+</li>
+<li>
+  <a href="seqinr_tutorial.html">tutorial exploring seqinr package</a>
+</li>
+      </ul>
+      <ul class="nav navbar-nav navbar-right">
+        
+      </ul>
+    </div><!--/.nav-collapse -->
+  </div><!--/.container -->
+</div><!--/.navbar -->
+
+<div class="fluid-row" id="header">
+
+
+
+<h1 class="title toc-ignore">seqinr_tutorial</h1>
+
+</div>
+
+
+<div id="seqinr" class="section level2">
+<h2>seqinr</h2>
+<div id="seqinr-is-an-r-package-for-the-analysis-visualisation-and-managment-of-biological-sequences." class="section level3">
+<h3><a href="http://seqinr.r-forge.r-project.org/">seqinr</a> is an R package for the <strong>analysis</strong>, <strong>visualisation</strong> and <strong>managment</strong> of biological sequences.</h3>
+<div id="lets-start-by-installing-then-loading-the-package" class="section level5">
+<h5>Let’s start by installing then loading the package</h5>
+<pre class="r"><code># install.packages(&quot;seqinr&quot;)#installing
+
+library(seqinr)#loading the package in the current session</code></pre>
+</div>
+<div id="we-will-begin-the-tutorial-by-exploring-the-top-useful-functions-in-the-package-and-what-sort-of-biological-questions-they-can-answer." class="section level5">
+<h5>We will begin the tutorial by exploring the top useful functions in the package and what sort of biological questions they can answer.</h5>
+</div>
+<div id="splitseq" class="section level4">
+<h4>splitseq()</h4>
+<p>Usage: . split a sequence to number of non-overlapping subsequences of a certain size starting at a certain frame Questions: . given a coding DNA/RNA sequence, what are the codons in starting at the first frame</p>
+<pre class="r"><code>size &lt;- 3 # size of the subsequence
+frame_n &lt;- 0 #the starting position to split(0,1,2)
+splitseq(seq = s2c(&quot;acggattagctagtttggc&quot;), frame = frame_n, word = size)</code></pre>
+<pre><code>## [1] &quot;acg&quot; &quot;gat&quot; &quot;tag&quot; &quot;cta&quot; &quot;gtt&quot; &quot;tgg&quot;</code></pre>
+</div>
+<div id="translatetranslate-dna-to-aa" class="section level4">
+<h4>18-translate():translate DNA to AA</h4>
+<pre class="r"><code>translate(seq = s2c(&quot;cagtacgtagacg&quot;),frame = 0, sens = &quot;R&quot;)</code></pre>
+<pre><code>## [1] &quot;R&quot; &quot;L&quot; &quot;R&quot; &quot;T&quot;</code></pre>
+</div>
+<div id="getsequenceextract-sequence" class="section level4">
+<h4>11-getSequence():extract sequence</h4>
+<pre class="r"><code>seqAA &lt;- read.fasta(file=system.file(&quot;sequences/seqAA.fasta&quot;, package =&quot;seqinr&quot;),
+                    seqtype = &quot;AA&quot;,
+                    set.attributes = F)
+getSequence(seqAA)</code></pre>
+<pre><code>## [[1]]
+##   [1] &quot;M&quot; &quot;P&quot; &quot;R&quot; &quot;L&quot; &quot;F&quot; &quot;S&quot; &quot;Y&quot; &quot;L&quot; &quot;L&quot; &quot;G&quot; &quot;V&quot; &quot;W&quot; &quot;L&quot; &quot;L&quot; &quot;L&quot; &quot;S&quot; &quot;Q&quot;
+##  [18] &quot;L&quot; &quot;P&quot; &quot;R&quot; &quot;E&quot; &quot;I&quot; &quot;P&quot; &quot;G&quot; &quot;Q&quot; &quot;S&quot; &quot;T&quot; &quot;N&quot; &quot;D&quot; &quot;F&quot; &quot;I&quot; &quot;K&quot; &quot;A&quot; &quot;C&quot;
+##  [35] &quot;G&quot; &quot;R&quot; &quot;E&quot; &quot;L&quot; &quot;V&quot; &quot;R&quot; &quot;L&quot; &quot;W&quot; &quot;V&quot; &quot;E&quot; &quot;I&quot; &quot;C&quot; &quot;G&quot; &quot;S&quot; &quot;V&quot; &quot;S&quot; &quot;W&quot;
+##  [52] &quot;G&quot; &quot;R&quot; &quot;T&quot; &quot;A&quot; &quot;L&quot; &quot;S&quot; &quot;L&quot; &quot;E&quot; &quot;E&quot; &quot;P&quot; &quot;Q&quot; &quot;L&quot; &quot;E&quot; &quot;T&quot; &quot;G&quot; &quot;P&quot; &quot;P&quot;
+##  [69] &quot;A&quot; &quot;E&quot; &quot;T&quot; &quot;M&quot; &quot;P&quot; &quot;S&quot; &quot;S&quot; &quot;I&quot; &quot;T&quot; &quot;K&quot; &quot;D&quot; &quot;A&quot; &quot;E&quot; &quot;I&quot; &quot;L&quot; &quot;K&quot; &quot;M&quot;
+##  [86] &quot;M&quot; &quot;L&quot; &quot;E&quot; &quot;F&quot; &quot;V&quot; &quot;P&quot; &quot;N&quot; &quot;L&quot; &quot;P&quot; &quot;Q&quot; &quot;E&quot; &quot;L&quot; &quot;K&quot; &quot;A&quot; &quot;T&quot; &quot;L&quot; &quot;S&quot;
+## [103] &quot;E&quot; &quot;R&quot; &quot;Q&quot; &quot;P&quot; &quot;S&quot; &quot;L&quot; &quot;R&quot; &quot;E&quot; &quot;L&quot; &quot;Q&quot; &quot;Q&quot; &quot;S&quot; &quot;A&quot; &quot;S&quot; &quot;K&quot; &quot;D&quot; &quot;S&quot;
+## [120] &quot;N&quot; &quot;L&quot; &quot;N&quot; &quot;F&quot; &quot;E&quot; &quot;E&quot; &quot;F&quot; &quot;K&quot; &quot;K&quot; &quot;I&quot; &quot;I&quot; &quot;L&quot; &quot;N&quot; &quot;R&quot; &quot;Q&quot; &quot;N&quot; &quot;E&quot;
+## [137] &quot;A&quot; &quot;E&quot; &quot;D&quot; &quot;K&quot; &quot;S&quot; &quot;L&quot; &quot;L&quot; &quot;E&quot; &quot;L&quot; &quot;K&quot; &quot;N&quot; &quot;L&quot; &quot;G&quot; &quot;L&quot; &quot;D&quot; &quot;K&quot; &quot;H&quot;
+## [154] &quot;S&quot; &quot;R&quot; &quot;K&quot; &quot;K&quot; &quot;R&quot; &quot;L&quot; &quot;F&quot; &quot;R&quot; &quot;M&quot; &quot;T&quot; &quot;L&quot; &quot;S&quot; &quot;E&quot; &quot;K&quot; &quot;C&quot; &quot;C&quot; &quot;Q&quot;
+## [171] &quot;V&quot; &quot;G&quot; &quot;C&quot; &quot;I&quot; &quot;R&quot; &quot;K&quot; &quot;D&quot; &quot;I&quot; &quot;A&quot; &quot;R&quot; &quot;L&quot; &quot;C&quot; &quot;*&quot;</code></pre>
+<pre class="r"><code>getLength(getSequence(seqAA))</code></pre>
+<pre><code>## [1] 183</code></pre>
+<pre class="r"><code>a &lt;- (&quot;cgtagaaatgcgcgc&quot;)
+c &lt;- (&quot;cgtggggtaaatcctgc&quot;)
+b &lt;- (&quot;gtgtccccaaaaagt&quot;)
+seqs &lt;- list(a,b,c)
+seqs &lt;- mapply(s2c, seqs)
+nth_base &lt;- function(n, seq){#returns the nth base in a sequence
+  x &lt;- seq[n]
+  return(x)
+}
+mapply(nth_base,2,seqs)</code></pre>
+<pre><code>## [1] &quot;g&quot; &quot;t&quot; &quot;g&quot;</code></pre>
+</div>
+<div id="gb2fastaconvert-genebank-file-format-into-fasta." class="section level4">
+<h4>8-gb2fasta():convert genebank file format into fasta.</h4>
+<pre class="r"><code>genbankfile &lt;- system.file(&quot;sequences/ct.gbk.gz&quot;, package = &quot;seqinr&quot;)
+fastafilename &lt;- &quot;Acinetobacter_ADP1_uid6159.fasta&quot;
+gb2fasta(genbankfile, fastafilename)
+readLines(fastafilename)[1:5]</code></pre>
+<pre><code>## [1] &quot;&gt;CHLTCG 1042519 bp&quot;                                          
+## [2] &quot;gcggccgcccgggaaattgctaaaagatgggagcaaagagttagagatctacaagataaa&quot;
+## [3] &quot;ggtgctgcacgaaaattattaaatgatcctttaggccgacgaacacctaattatcagagc&quot;
+## [4] &quot;aaaaatccaggtgagtatactgtagggaattccatgttttacgatggtcctcaggtagcg&quot;
+## [5] &quot;aatctccagaacgtcgacactggtttttggctggacatgagcaatctctcagacgttgta&quot;</code></pre>
+</div>
+<div id="c2s-and-s2cconverts-characters-into-sequences-and-vice-versa" class="section level4">
+<h4>4-c2s() and S2c():Converts characters into sequences, and vice versa</h4>
+<pre class="r"><code>seq &lt;- &quot;acgtacgta&quot;
+charc &lt;- s2c(seq)
+c2s(charc)</code></pre>
+<pre><code>## [1] &quot;acgtacgta&quot;</code></pre>
+</div>
+<div id="dist.alignmentcalculates-pairwise-distance-of-two-aligned-sequences" class="section level4">
+<h4>20-dist.alignment():calculates pairwise distance of two aligned sequences</h4>
+<pre class="r"><code>carps &lt;- read.alignment(&quot;../molecular_data_analysis_using_r/MDAuR-master/Chapter_02/data/vertebrate_CARPs.aln&quot;,format=&quot;clustal&quot;)
+dali &lt;- dist.alignment(carps,matrix = &quot;identity&quot;)
+density(dali)</code></pre>
+<pre><code>## 
+## Call:
+##  density.default(x = dali)
+## 
+## Data: dali (1830 obs.);  Bandwidth &#39;bw&#39; = 0.03524
+## 
+##        x                 y           
+##  Min.   :-0.1057   Min.   :0.000211  
+##  1st Qu.: 0.1490   1st Qu.:0.091496  
+##  Median : 0.4038   Median :0.775760  
+##  Mean   : 0.4038   Mean   :0.980402  
+##  3rd Qu.: 0.6585   3rd Qu.:1.162743  
+##  Max.   : 0.9133   Max.   :4.362500</code></pre>
+<pre class="r"><code>plot(density(dali))#distribution of values in pairwise-distance matrix</code></pre>
+<p><img src="seqinr_tutorial_files/figure-html/unnamed-chunk-7-1.png" width="672" /></p>
+</div>
+<div id="compcomplement-a-dna-sequence-of-characters" class="section level4">
+<h4>5-comp():complement a DNA sequence of characters</h4>
+<pre class="r"><code>comp(s2c(&quot;acgt&quot;))</code></pre>
+<pre><code>## [1] &quot;t&quot; &quot;g&quot; &quot;c&quot; &quot;a&quot;</code></pre>
+<pre class="r"><code>rev(comp(s2c(&quot;acgt&quot;)))#reverse complement sequence</code></pre>
+<pre><code>## [1] &quot;a&quot; &quot;c&quot; &quot;g&quot; &quot;t&quot;</code></pre>
+</div>
+<div id="read.fastareads-fasta-files" class="section level4">
+<h4>1-read.fasta():reads fasta files</h4>
+<pre class="r"><code>file_name_fa &lt;- &quot;Acinetobacter_ADP1_uid6159.fasta&quot; #name of a fasta file in the current directory
+fastafile &lt;- read.fasta(file = file_name_fa,
+                        as.string = TRUE,
+                        set.attributes = FALSE,
+                        seqtype = &quot;DNA&quot;
+                        )</code></pre>
+</div>
+<div id="aastat" class="section level4">
+<h4>1-AAstat()</h4>
+<div id="usage" class="section level5">
+<h5>Usage:</h5>
+<p>-This function plots and calculates simple sequence statistics and physico-chemical characterstics of a sequence of amino acids</p>
+</div>
+<div id="questions" class="section level5">
+<h5>Questions:</h5>
+<ol style="list-style-type: decimal">
+<li>why</li>
+</ol>
+<pre class="r"><code>seqAA &lt;- read.fasta(file=system.file(&quot;sequences/seqAA.fasta&quot;, package =&quot;seqinr&quot;),
+                    seqtype = &quot;AA&quot;,
+                    set.attributes = F
+                    )
+AAstat(seq = seqAA[[1]], plot = TRUE)</code></pre>
+<pre><code>## $Compo
+## 
+##  *  A  C  D  E  F  G  H  I  K  L  M  N  P  Q  R  S  T  V  W  Y 
+##  1  8  6  6 18  6  8  1  9 14 29  5  7 10  9 13 16  7  6  3  1 
+## 
+## $Prop
+## $Prop$Tiny
+## [1] 0.2459016
+## 
+## $Prop$Small
+## [1] 0.4043716
+## 
+## $Prop$Aliphatic
+## [1] 0.2404372
+## 
+## $Prop$Aromatic
+## [1] 0.06010929
+## 
+## $Prop$Non.polar
+## [1] 0.4972678
+## 
+## $Prop$Polar
+## [1] 0.4972678
+## 
+## $Prop$Charged
+## [1] 0.284153
+## 
+## $Prop$Basic
+## [1] 0.1530055
+## 
+## $Prop$Acidic
+## [1] 0.1311475
+## 
+## 
+## $Pi
+## [1] 8.534902</code></pre>
+<pre class="r"><code>names(AAstat(seq = seqAA[[1]], plot = TRUE))</code></pre>
+<p><img src="seqinr_tutorial_files/figure-html/unnamed-chunk-10-1.png" width="672" /></p>
+<pre><code>## [1] &quot;Compo&quot; &quot;Prop&quot;  &quot;Pi&quot;</code></pre>
+<pre class="r"><code>AAstat(seq = seqAA[[1]], plot = FALSE)$Pi #calculates theoretical isoelectric points</code></pre>
+<pre><code>## [1] 8.534902</code></pre>
+<pre class="r"><code>barplot(unlist(AAstat(seq = seqAA[[1]], plot = FALSE)$Prop),ylim = c(0,0.6),cex.names = 0.7)</code></pre>
+<p><img src="seqinr_tutorial_files/figure-html/unnamed-chunk-10-2.png" width="672" /> ####3-a() and aaa():converts amico acid three letter code into single letter, and vice versa.</p>
+<pre class="r"><code>one_aa &lt;- a(&quot;Ala&quot;)
+three_aa &lt;- aaa(&quot;A&quot;)</code></pre>
+</div>
+</div>
+<div id="computepicompute-theoretical-isoelectric-point" class="section level4">
+<h4>6-computePI():compute theoretical isoelectric point</h4>
+<pre class="r"><code>computePI(seqAA[[1]])</code></pre>
+<pre><code>## [1] 8.534902</code></pre>
+</div>
+<div id="countcount-the-occurences-of-oligos-of-size-wordsize" class="section level4">
+<h4>7-count():count the occurences of oligos of size = wordsize</h4>
+<pre class="r"><code>fs &lt;- read.fasta(file = system.file(&quot;sequences/someORF.fsa&quot;, package = &quot;seqinr&quot;),
+                 seqtype = &quot;DNA&quot;)
+
+count(s2c(&quot;acgttttcgggttaaa&quot;),wordsize = 3, alphabet = c(&quot;g&quot;,&quot;a&quot;,&quot;t&quot;,&quot;c&quot;))</code></pre>
+<pre><code>## 
+## aaa aac aag aat aca acc acg act aga agc agg agt ata atc atg att caa cac 
+##   1   0   0   0   0   0   1   0   0   0   0   0   0   0   0   0   0   0 
+## cag cat cca ccc ccg cct cga cgc cgg cgt cta ctc ctg ctt gaa gac gag gat 
+##   0   0   0   0   0   0   0   0   1   1   0   0   0   0   0   0   0   0 
+## gca gcc gcg gct gga ggc ggg ggt gta gtc gtg gtt taa tac tag tat tca tcc 
+##   0   0   0   0   0   0   1   1   0   0   0   2   1   0   0   0   0   0 
+## tcg tct tga tgc tgg tgt tta ttc ttg ttt 
+##   1   0   0   0   0   0   1   1   0   2</code></pre>
+<pre class="r"><code>count(fs[[1]], wordsize = 1, alphabet = c(&quot;g&quot;, &quot;t&quot;, &quot;a&quot;, &quot;c&quot;))/getLength(fs[[1]])#proportion of each nucleutide in a sequence</code></pre>
+<pre><code>## 
+##         a         c         g         t 
+## 0.3520545 0.1613135 0.1918177 0.2948143</code></pre>
+<pre class="r"><code>file_name_fa &lt;- &quot;Acinetobacter_ADP1_uid6159.fasta&quot;
+fastafile &lt;- read.fasta(file = file_name_fa,
+                        as.string = FALSE,
+                        set.attributes = FALSE,
+                        seqtype = &quot;DNA&quot;
+)
+codon_freq &lt;- count(fastafile[[1]], wordsize = 3, alphabet = c(&quot;a&quot;, &quot;c&quot;, &quot;g&quot;, &quot;t&quot;))
+codon_prop &lt;- codon_freq/sum(codon_freq)
+barplot(codon_prop, las = 2)#plot the the frequency of codons on the sequence</code></pre>
+<p><img src="seqinr_tutorial_files/figure-html/unnamed-chunk-13-1.png" width="672" /></p>
+<pre class="r"><code>#read the fasta file
+hm_ttn_fa &lt;- read.fasta(file = &quot;../molecular_data_analysis_using_r/MDAuR-master/Chapter_02/data/human_ttn_genomic_dna.fasta&quot;,seqtype = &quot;DNA&quot;,strip.desc = TRUE)
+#extract the sequecne only for further analysis
+hm_ttn_seq_1 &lt;- hm_ttn_fa[[1]]
+#..or
+hm_ttn_seq_2 &lt;- getSequence(hm_ttn_fa)
+class(hm_ttn_seq_1)</code></pre>
+<pre><code>## [1] &quot;SeqFastadna&quot;</code></pre>
+<pre class="r"><code>#find the frequency and proportion each base in the sequence
+#frequency
+table(hm_ttn_seq_1)</code></pre>
+<pre><code>## hm_ttn_seq_1
+##     a     c     g     t 
+## 90298 53047 53316 84774</code></pre>
+<pre class="r"><code>#..or
+count(hm_ttn_seq_2[[1]],wordsize = 1, alphabet = c(&quot;a&quot;, &quot;c&quot;, &quot;g&quot;))</code></pre>
+<pre><code>## 
+##     a     c     g 
+## 90298 53047 53316</code></pre>
+<pre class="r"><code>#probortion
+table(hm_ttn_seq_1)/length(hm_ttn_seq_1)</code></pre>
+<pre><code>## hm_ttn_seq_1
+##         a         c         g         t 
+## 0.3208485 0.1884876 0.1894434 0.3012205</code></pre>
+<pre class="r"><code>#..or
+count(hm_ttn_seq_1,wordsize = 1, alphabet = c(&quot;a&quot;, &quot;c&quot;, &quot;g&quot;)) /getLength(hm_ttn_seq_1)</code></pre>
+<pre><code>## 
+##         a         c         g 
+## 0.3208485 0.1884876 0.1894434</code></pre>
+</div>
+<div id="gccalucates-the-fraction-of-gc-in-dna-sequence" class="section level4">
+<h4>2-GC():calucates the fraction of G+C in DNA sequence</h4>
+<pre class="r"><code>myseq1 &lt;- &quot;attcgcgcgcg&quot;
+myseq2 &lt;- &quot;cttgcg&quot;
+myseq3 &lt;- paste0(myseq2,&quot;ssss&quot;)
+GC(s2c(myseq2))==GC(s2c(myseq3))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+<pre class="r"><code>GC(s2c(myseq2), exact = FALSE)==GC(s2c(myseq3), exact = TRUE)</code></pre>
+<pre><code>## [1] FALSE</code></pre>
+<pre class="r"><code>win.size &lt;- 100
+GC_score &lt;- vector()
+k &lt;- 1
+for (i in k:(length(hm_ttn_seq_1)-win.size)){
+  GC_score[i] &lt;- GC(hm_ttn_seq_1[i:(i+win.size)])
+}
+
+par(mfrow=c(2,2))
+for (win.size in c( 100, 500, 1000, 10000)){
+  GC_score &lt;- vector()
+  for (i in k:(length(hm_ttn_seq_1)-win.size)){
+    GC_score[i] &lt;- GC(hm_ttn_seq_1[i:(i+win.size)])
+  }
+  plot(GC_score, type = &quot;l&quot;)
+}</code></pre>
+<p><img src="seqinr_tutorial_files/figure-html/unnamed-chunk-14-1.png" width="672" /></p>
+<pre class="r"><code>par(mfrow=c(1,1))</code></pre>
+</div>
+<div id="getlengthlength-of-a-sequence" class="section level4">
+<h4>9-getlength():length of a sequence</h4>
+<pre class="r"><code>getLength(seqAA)</code></pre>
+<pre><code>## [1] 183</code></pre>
+<pre class="r"><code>ff &lt;- system.file(&quot;sequences/someORF.fsa&quot;, package = &quot;seqinr&quot;)
+fs &lt;- read.fasta(ff)
+getLength(fs)#length of fasta enteries</code></pre>
+<pre><code>## [1] 5573 5825 2987 3929 2648 2597 2780</code></pre>
+<pre class="r"><code>getLength.SeqFastaAA(fs)#number of fasta enteries</code></pre>
+<pre><code>## [1] 7</code></pre>
+<pre class="r"><code>headers &lt;- getAnnot(fs)#get sequence header
+entry_index &lt;- grep(&quot;reverse complement&quot;, headers)#find &quot;reverse complement&quot; sequences
+rev_seq &lt;- fs[entry_index]#select &quot;reverse complement&quot; sequence </code></pre>
+</div>
+<div id="getnamessimilar-to-names" class="section level4">
+<h4>10-getNames():similar to names</h4>
+<pre class="r"><code>all(names(fs)==getName(fs))</code></pre>
+<pre><code>## [1] TRUE</code></pre>
+</div>
+<div id="gettranstranslate-codons-to-corresponding-amino-acids" class="section level4">
+<h4>12-getTrans():translate codons to corresponding amino acids</h4>
+<pre class="r"><code>seq_index&lt;- which(getLength(fs)==min(getLength(fs)))#select the shortest sequence
+getTrans(fs[[seq_index]])</code></pre>
+<pre><code>##   [1] &quot;V&quot; &quot;S&quot; &quot;G&quot; &quot;P&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;S&quot; &quot;T&quot; &quot;S&quot; &quot;K&quot; &quot;T&quot; &quot;S&quot; &quot;S&quot; &quot;A&quot; &quot;K&quot; &quot;N&quot;
+##  [18] &quot;I&quot; &quot;R&quot; &quot;N&quot; &quot;S&quot; &quot;S&quot; &quot;N&quot; &quot;I&quot; &quot;S&quot; &quot;P&quot; &quot;A&quot; &quot;S&quot; &quot;M&quot; &quot;I&quot; &quot;F&quot; &quot;R&quot; &quot;N&quot; &quot;L&quot;
+##  [35] &quot;L&quot; &quot;I&quot; &quot;L&quot; &quot;E&quot; &quot;D&quot; &quot;D&quot; &quot;L&quot; &quot;R&quot; &quot;R&quot; &quot;Q&quot; &quot;A&quot; &quot;H&quot; &quot;E&quot; &quot;Q&quot; &quot;K&quot; &quot;I&quot; &quot;L&quot;
+##  [52] &quot;K&quot; &quot;W&quot; &quot;Q&quot; &quot;F&quot; &quot;T&quot; &quot;L&quot; &quot;F&quot; &quot;L&quot; &quot;A&quot; &quot;S&quot; &quot;M&quot; &quot;A&quot; &quot;G&quot; &quot;V&quot; &quot;G&quot; &quot;A&quot; &quot;F&quot;
+##  [69] &quot;T&quot; &quot;F&quot; &quot;Y&quot; &quot;E&quot; &quot;L&quot; &quot;Y&quot; &quot;F&quot; &quot;T&quot; &quot;S&quot; &quot;D&quot; &quot;Y&quot; &quot;V&quot; &quot;K&quot; &quot;G&quot; &quot;L&quot; &quot;H&quot; &quot;R&quot;
+##  [86] &quot;V&quot; &quot;I&quot; &quot;L&quot; &quot;Q&quot; &quot;F&quot; &quot;T&quot; &quot;L&quot; &quot;S&quot; &quot;F&quot; &quot;I&quot; &quot;S&quot; &quot;I&quot; &quot;T&quot; &quot;V&quot; &quot;V&quot; &quot;L&quot; &quot;F&quot;
+## [103] &quot;H&quot; &quot;I&quot; &quot;S&quot; &quot;G&quot; &quot;Q&quot; &quot;Y&quot; &quot;R&quot; &quot;R&quot; &quot;T&quot; &quot;I&quot; &quot;V&quot; &quot;I&quot; &quot;P&quot; &quot;R&quot; &quot;R&quot; &quot;F&quot; &quot;F&quot;
+## [120] &quot;T&quot; &quot;S&quot; &quot;T&quot; &quot;N&quot; &quot;K&quot; &quot;G&quot; &quot;I&quot; &quot;R&quot; &quot;Q&quot; &quot;F&quot; &quot;N&quot; &quot;V&quot; &quot;K&quot; &quot;L&quot; &quot;V&quot; &quot;K&quot; &quot;V&quot;
+## [137] &quot;Q&quot; &quot;S&quot; &quot;T&quot; &quot;W&quot; &quot;D&quot; &quot;E&quot; &quot;K&quot; &quot;Y&quot; &quot;T&quot; &quot;D&quot; &quot;S&quot; &quot;V&quot; &quot;R&quot; &quot;F&quot; &quot;V&quot; &quot;S&quot; &quot;R&quot;
+## [154] &quot;T&quot; &quot;I&quot; &quot;A&quot; &quot;Y&quot; &quot;C&quot; &quot;N&quot; &quot;I&quot; &quot;Y&quot; &quot;C&quot; &quot;L&quot; &quot;K&quot; &quot;K&quot; &quot;F&quot; &quot;L&quot; &quot;W&quot; &quot;L&quot; &quot;K&quot;
+## [171] &quot;D&quot; &quot;D&quot; &quot;N&quot; &quot;A&quot; &quot;I&quot; &quot;V&quot; &quot;K&quot; &quot;F&quot; &quot;W&quot; &quot;K&quot; &quot;S&quot; &quot;V&quot; &quot;T&quot; &quot;I&quot; &quot;Q&quot; &quot;S&quot; &quot;Q&quot;
+## [188] &quot;P&quot; &quot;R&quot; &quot;I&quot; &quot;G&quot; &quot;A&quot; &quot;V&quot; &quot;D&quot; &quot;V&quot; &quot;K&quot; &quot;L&quot; &quot;V&quot; &quot;L&quot; &quot;N&quot; &quot;P&quot; &quot;R&quot; &quot;A&quot; &quot;F&quot;
+## [205] &quot;S&quot; &quot;A&quot; &quot;E&quot; &quot;I&quot; &quot;R&quot; &quot;E&quot; &quot;G&quot; &quot;W&quot; &quot;E&quot; &quot;I&quot; &quot;Y&quot; &quot;R&quot; &quot;D&quot; &quot;E&quot; &quot;F&quot; &quot;W&quot; &quot;A&quot;
+## [222] &quot;R&quot; &quot;E&quot; &quot;G&quot; &quot;A&quot; &quot;R&quot; &quot;R&quot; &quot;R&quot; &quot;K&quot; &quot;Q&quot; &quot;A&quot; &quot;H&quot; &quot;E&quot; &quot;L&quot; &quot;R&quot; &quot;P&quot; &quot;K&quot; &quot;S&quot;
+## [239] &quot;E&quot; &quot;*&quot; &quot;K&quot; &quot;S&quot; &quot;W&quot; &quot;R&quot; &quot;A&quot; &quot;S&quot; &quot;S&quot; &quot;F&quot; &quot;E&quot; &quot;*&quot; &quot;E&quot; &quot;V&quot; &quot;I&quot; &quot;F&quot; &quot;T&quot;
+## [256] &quot;Y&quot; &quot;V&quot; &quot;K&quot; &quot;L&quot; &quot;*&quot; &quot;P&quot; &quot;S&quot; &quot;M&quot; &quot;F&quot; &quot;T&quot; &quot;H&quot; &quot;K&quot; &quot;L&quot; &quot;Y&quot; &quot;F&quot; &quot;I&quot; &quot;H&quot;
+## [273] &quot;Y&quot; &quot;*&quot; &quot;K&quot; &quot;*&quot; &quot;S&quot; &quot;C&quot; &quot;C&quot; &quot;V&quot; &quot;V&quot; &quot;K&quot; &quot;I&quot; &quot;L&quot; &quot;Q&quot; &quot;I&quot; &quot;R&quot; &quot;H&quot; &quot;F&quot;
+## [290] &quot;I&quot; &quot;F&quot; &quot;K&quot; &quot;F&quot; &quot;S&quot; &quot;N&quot; &quot;K&quot; &quot;C&quot; &quot;*&quot; &quot;K&quot; &quot;T&quot; &quot;*&quot; &quot;G&quot; &quot;L&quot; &quot;L&quot; &quot;K&quot; &quot;L&quot;
+## [307] &quot;V&quot; &quot;K&quot; &quot;Q&quot; &quot;G&quot; &quot;I&quot; &quot;L&quot; &quot;L&quot; &quot;Y&quot; &quot;I&quot; &quot;Q&quot; &quot;Q&quot; &quot;H&quot; &quot;N&quot; &quot;A&quot; &quot;R&quot; &quot;G&quot; &quot;A&quot;
+## [324] &quot;R&quot; &quot;R&quot; &quot;K&quot; &quot;N&quot; &quot;L&quot; &quot;K&quot; &quot;*&quot; &quot;*&quot; &quot;V&quot; &quot;*&quot; &quot;N&quot; &quot;D&quot; &quot;F&quot; &quot;G&quot; &quot;F&quot; &quot;*&quot; &quot;Y&quot;
+## [341] &quot;A&quot; &quot;T&quot; &quot;V&quot; &quot;G&quot; &quot;V&quot; &quot;S&quot; &quot;*&quot; &quot;F&quot; &quot;E&quot; &quot;C&quot; &quot;W&quot; &quot;E&quot; &quot;A&quot; &quot;H&quot; &quot;V&quot; &quot;Q&quot; &quot;E&quot;
+## [358] &quot;R&quot; &quot;P&quot; &quot;L&quot; &quot;M&quot; &quot;E&quot; &quot;V&quot; &quot;*&quot; &quot;C&quot; &quot;R&quot; &quot;Q&quot; &quot;*&quot; &quot;I&quot; &quot;R&quot; &quot;K&quot; &quot;A&quot; &quot;L&quot; &quot;N&quot;
+## [375] &quot;S&quot; &quot;L&quot; &quot;C&quot; &quot;R&quot; &quot;V&quot; &quot;R&quot; &quot;R&quot; &quot;C&quot; &quot;W&quot; &quot;H&quot; &quot;S&quot; &quot;C&quot; &quot;W&quot; &quot;W&quot; &quot;L&quot; &quot;L&quot; &quot;L&quot;
+## [392] &quot;D&quot; &quot;E&quot; &quot;S&quot; &quot;P&quot; &quot;A&quot; &quot;F&quot; &quot;*&quot; &quot;V&quot; &quot;D&quot; &quot;I&quot; &quot;Q&quot; &quot;*&quot; &quot;F&quot; &quot;F&quot; &quot;R&quot; &quot;G&quot; &quot;S&quot;
+## [409] &quot;C&quot; &quot;Q&quot; &quot;T&quot; &quot;T&quot; &quot;G&quot; &quot;S&quot; &quot;L&quot; &quot;G&quot; &quot;T&quot; &quot;N&quot; &quot;C&quot; &quot;G&quot; &quot;Q&quot; &quot;Q&quot; &quot;Y&quot; &quot;G&quot; &quot;N&quot;
+## [426] &quot;Y&quot; &quot;R&quot; &quot;G&quot; &quot;K&quot; &quot;E&quot; &quot;E&quot; &quot;Q&quot; &quot;N&quot; &quot;K&quot; &quot;*&quot; &quot;S&quot; &quot;Q&quot; &quot;A&quot; &quot;D&quot; &quot;V&quot; &quot;F&quot; &quot;G&quot;
+## [443] &quot;I&quot; &quot;I&quot; &quot;I&quot; &quot;R&quot; &quot;C&quot; &quot;C&quot; &quot;F&quot; &quot;R&quot; &quot;S&quot; &quot;Y&quot; &quot;G&quot; &quot;G&quot; &quot;*&quot; &quot;D&quot; &quot;I&quot; &quot;N&quot; &quot;F&quot;
+## [460] &quot;V&quot; &quot;Y&quot; &quot;V&quot; &quot;C&quot; &quot;R&quot; &quot;Y&quot; &quot;Y&quot; &quot;K&quot; &quot;H&quot; &quot;A&quot; &quot;S&quot; &quot;L&quot; &quot;*&quot; &quot;M&quot; &quot;V&quot; &quot;T&quot; &quot;V&quot;
+## [477] &quot;Q&quot; &quot;G&quot; &quot;M&quot; &quot;D&quot; &quot;S&quot; &quot;H&quot; &quot;*&quot; &quot;F&quot; &quot;E&quot; &quot;K&quot; &quot;Y&quot; &quot;Q&quot; &quot;I&quot; &quot;C&quot; &quot;N&quot; &quot;C&quot; &quot;F&quot;
+## [494] &quot;E&quot; &quot;R&quot; &quot;C&quot; &quot;R&quot; &quot;L&quot; &quot;E&quot; &quot;E&quot; &quot;T&quot; &quot;A&quot; &quot;Y&quot; &quot;*&quot; &quot;W&quot; &quot;V&quot; &quot;I&quot; &quot;G&quot; &quot;Y&quot; &quot;R&quot;
+## [511] &quot;I&quot; &quot;H&quot; &quot;G&quot; &quot;F&quot; &quot;*&quot; &quot;S&quot; &quot;I&quot; &quot;L&quot; &quot;Y&quot; &quot;I&quot; &quot;E&quot; &quot;F&quot; &quot;R&quot; &quot;I&quot; &quot;S&quot; &quot;K&quot; &quot;F&quot;
+## [528] &quot;K&quot; &quot;C&quot; &quot;*&quot; &quot;Q&quot; &quot;M&quot; &quot;S&quot; &quot;K&quot; &quot;T&quot; &quot;N&quot; &quot;D&quot; &quot;Q&quot; &quot;I&quot; &quot;*&quot; &quot;T&quot; &quot;R&quot; &quot;V&quot; &quot;I&quot;
+## [545] &quot;F&quot; &quot;F&quot; &quot;R&quot; &quot;F&quot; &quot;I&quot; &quot;L&quot; &quot;F&quot; &quot;Y&quot; &quot;F&quot; &quot;W&quot; &quot;Y&quot; &quot;F&quot; &quot;I&quot; &quot;Y&quot; &quot;P&quot; &quot;I&quot; &quot;Q&quot;
+## [562] &quot;*&quot; &quot;I&quot; &quot;Y&quot; &quot;I&quot; &quot;G&quot; &quot;L&quot; &quot;R&quot; &quot;K&quot; &quot;K&quot; &quot;K&quot; &quot;K&quot; &quot;S&quot; &quot;R&quot; &quot;R&quot; &quot;I&quot; &quot;*&quot; &quot;T&quot;
+## [579] &quot;*&quot; &quot;L&quot; &quot;C&quot; &quot;S&quot; &quot;I&quot; &quot;L&quot; &quot;R&quot; &quot;T&quot; &quot;Y&quot; &quot;I&quot; &quot;F&quot; &quot;R&quot; &quot;R&quot; &quot;L&quot; &quot;K&quot; &quot;S&quot; &quot;S&quot;
+## [596] &quot;*&quot; &quot;T&quot; &quot;*&quot; &quot;F&quot; &quot;F&quot; &quot;*&quot; &quot;R&quot; &quot;P&quot; &quot;V&quot; &quot;K&quot; &quot;R&quot; &quot;N&quot; &quot;*&quot; &quot;I&quot; &quot;S&quot; &quot;R&quot; &quot;T&quot;
+## [613] &quot;W&quot; &quot;A&quot; &quot;I&quot; &quot;L&quot; &quot;I&quot; &quot;T&quot; &quot;A&quot; &quot;M&quot; &quot;I&quot; &quot;M&quot; &quot;I&quot; &quot;I&quot; &quot;N&quot; &quot;I&quot; &quot;D&quot; &quot;N&quot; &quot;Q&quot;
+## [630] &quot;V&quot; &quot;N&quot; &quot;L&quot; &quot;D&quot; &quot;S&quot; &quot;V&quot; &quot;E&quot; &quot;L&quot; &quot;T&quot; &quot;V&quot; &quot;D&quot; &quot;M&quot; &quot;F&quot; &quot;L&quot; &quot;H&quot; &quot;S&quot; &quot;L&quot;
+## [647] &quot;A&quot; &quot;L&quot; &quot;K&quot; &quot;*&quot; &quot;F&quot; &quot;K&quot; &quot;V&quot; &quot;F&quot; &quot;V&quot; &quot;I&quot; &quot;L&quot; &quot;F&quot; &quot;K&quot; &quot;F&quot; &quot;L&quot; &quot;S&quot; &quot;I&quot;
+## [664] &quot;S&quot; &quot;S&quot; &quot;T&quot; &quot;A&quot; &quot;L&quot; &quot;L&quot; &quot;A&quot; &quot;I&quot; &quot;M&quot; &quot;S&quot; &quot;S&quot; &quot;L&quot; &quot;L&quot; &quot;T&quot; &quot;S&quot; &quot;A&quot; &quot;S&quot;
+## [681] &quot;C&quot; &quot;S&quot; &quot;S&quot; &quot;V&quot; &quot;K&quot; &quot;V&quot; &quot;F&quot; &quot;S&quot; &quot;F&quot; &quot;S&quot; &quot;S&quot; &quot;V&quot; &quot;I&quot; &quot;S&quot; &quot;T&quot; &quot;F&quot; &quot;F&quot;
+## [698] &quot;N&quot; &quot;A&quot; &quot;V&quot; &quot;P&quot; &quot;*&quot; &quot;L&quot; &quot;L&quot; &quot;E&quot; &quot;K&quot; &quot;Q&quot; &quot;K&quot; &quot;V&quot; &quot;Y&quot; &quot;F&quot; &quot;P&quot; &quot;T&quot; &quot;P&quot;
+## [715] &quot;N&quot; &quot;D&quot; &quot;F&quot; &quot;N&quot; &quot;K&quot; &quot;K&quot; &quot;S&quot; &quot;E&quot; &quot;Y&quot; &quot;F&quot; &quot;F&quot; &quot;C&quot; &quot;F&quot; &quot;S&quot; &quot;L&quot; &quot;V&quot; &quot;I&quot;
+## [732] &quot;T&quot; &quot;D&quot; &quot;P&quot; &quot;S&quot; &quot;G&quot; &quot;A&quot; &quot;V&quot; &quot;I&quot; &quot;S&quot; &quot;K&quot; &quot;S&quot; &quot;I&quot; &quot;S&quot; &quot;K&quot; &quot;L&quot; &quot;P&quot; &quot;P&quot;
+## [749] &quot;V&quot; &quot;R&quot; &quot;T&quot; &quot;W&quot; &quot;*&quot; &quot;P&quot; &quot;T&quot; &quot;A&quot; &quot;R&quot; &quot;E&quot; &quot;S&quot; &quot;S&quot; &quot;S&quot; &quot;V&quot; &quot;T&quot; &quot;I&quot; &quot;S&quot;
+## [766] &quot;*&quot; &quot;Y&quot; &quot;R&quot; &quot;H&quot; &quot;S&quot; &quot;L&quot; &quot;L&quot; &quot;N&quot; &quot;A&quot; &quot;G&quot; &quot;K&quot; &quot;L&quot; &quot;I&quot; &quot;A&quot; &quot;T&quot; &quot;G&quot; &quot;A&quot;
+## [783] &quot;*&quot; &quot;L&quot; &quot;E&quot; &quot;D&quot; &quot;A&quot; &quot;A&quot; &quot;T&quot; &quot;E&quot; &quot;L&quot; &quot;T&quot; &quot;N&quot; &quot;A&quot; &quot;K&quot; &quot;I&quot; &quot;K&quot; &quot;T&quot; &quot;M&quot;
+## [800] &quot;K&quot; &quot;K&quot; &quot;E&quot; &quot;G&quot; &quot;R&quot; &quot;A&quot; &quot;I&quot; &quot;V&quot; &quot;D&quot; &quot;L&quot; &quot;I&quot; &quot;M&quot; &quot;V&quot; &quot;F&quot; &quot;L&quot; &quot;Y&quot; &quot;N&quot;
+## [817] &quot;E&quot; &quot;C&quot; &quot;T&quot; &quot;P&quot; &quot;L&quot; &quot;F&quot; &quot;I&quot; &quot;L&quot; &quot;F&quot; &quot;*&quot; &quot;F&quot; &quot;G&quot; &quot;S&quot; &quot;P&quot; &quot;D&quot; &quot;A&quot; &quot;E&quot;
+## [834] &quot;L&quot; &quot;A&quot; &quot;V&quot; &quot;S&quot; &quot;I&quot; &quot;P&quot; &quot;K&quot; &quot;V&quot; &quot;N&quot; &quot;E&quot; &quot;S&quot; &quot;K&quot; &quot;S&quot; &quot;L&quot; &quot;E&quot; &quot;I&quot; &quot;L&quot;
+## [851] &quot;L&quot; &quot;V&quot; &quot;F&quot; &quot;H&quot; &quot;F&quot; &quot;N&quot; &quot;*&quot; &quot;F&quot; &quot;K&quot; &quot;F&quot; &quot;W&quot; &quot;Q&quot; &quot;N&quot; &quot;V&quot; &quot;L&quot;</code></pre>
+</div>
+<div id="pmwfind-protein-molecular-weight" class="section level4">
+<h4>13-pmw():find protein molecular weight</h4>
+<pre class="r"><code>pmw(seqAA[[1]])</code></pre>
+<pre><code>## [1] 20818.05</code></pre>
+</div>
+<div id="read.alignmentread-mutliple-alignment-files" class="section level4">
+<h4>14-read.alignment():read mutliple alignment files</h4>
+<pre class="r"><code>align_file &lt;- system.file(&quot;sequences/test.aln&quot;, package = &quot;seqinr&quot;)
+align_seq &lt;- read.alignment(align_file, format = &quot;clustal&quot;)
+
+carps&lt;-read.alignment(&quot;../molecular_data_analysis_using_r/MDAuR-master/Chapter_02/data/vertebrate_CARPs.aln&quot;,format=&quot;clustal&quot;)
+str(carps)</code></pre>
+<pre><code>## List of 4
+##  $ nb : num 61
+##  $ nam: chr [1:61] &quot;Dasypus_novemcinctus_CARP_X&quot; &quot;Xenopus_tropicalis_CARP_X&quot; &quot;Oreochromis_niloticus_CARP_X&quot; &quot;Latimeria_chalumnae_CARP_X&quot; ...
+##  $ seq:List of 61
+##   ..$ : chr &quot;------------agagacaaaatcagaaacagtttgagatca---------acagagcctgaa---------------------gagcacaaggtgagggtgctggagagt&quot;| __truncated__
+##   ..$ : chr &quot;---------------ataaatatttac---------------aaaacactcgaattaacaata---------------------tctatctttgtctttttttatatttta&quot;| __truncated__
+##   ..$ : chr &quot;------------atggatataatttgggagata------------------ctgatcattctt---------------------caagctaattttattgtttgtatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaattatttgggagata------------------atttttattctt---------------------caaactaatttcatcgtgtgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaattgtttgggaggtg------------------ctttttcttctg---------------------caagccaatttcatcgtctgcatttca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaattgtttgggaggtg------------------ctttttcttctg---------------------caagctaatttcatcgtctgcatttca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaattgtttgggaggtg------------------ctttttcttctg---------------------caagcgaatttcattgtctgcatttca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaattgtttgggaggtg------------------ctttttcttctg---------------------caagcgaatttcatcgtctgcatttca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttctcctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtgtgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggaaatagtctgggaggtg------------------ctttttcttctt---------------------caagccaatttcatcgtctgcatatca&quot;| __truncated__
+##   ..$ : chr &quot;---------------gcagagggactcaggagcctaggatatggatcagtggagtttagtgca---------------------ttgtgtgtggtggaaatgaggaagaat&quot;| __truncated__
+##   ..$ : chr &quot;------------atggagagaatcaggagttgtttaggacacggatcaatggagcttaatgaa---------------------ttgcatgtgatgggggagagggagaac&quot;| __truncated__
+##   ..$ : chr &quot;---------------------------------------------------------------------------------------------------------------&quot;| __truncated__
+##   ..$ : chr &quot;---------------------------------------------------------------------------------------------------------------&quot;| __truncated__
+##   ..$ : chr &quot;---------------------------------------------------------------------------------------------------------------&quot;| __truncated__
+##   ..$ : chr &quot;---------------------------------------------------------------------------------------------------------------&quot;| __truncated__
+##   ..$ : chr &quot;---------------gctggaatcaggagcaggtcaggatgtgggttaacagaacctgatgga---------------------ttgtatatgatggggatgaaggtttta&quot;| __truncated__
+##   ..$ : chr &quot;------------------------atg---aggaccggggtgcatgtggggctttgcctcttg---------------------ggagtcctgacagcaacttgtatggct&quot;| __truncated__
+##   ..$ : chr &quot;------------atggggggcccggtc---cgcctcagccctccgcgggccctgctcctcggg------------------------------gcggccttaggggccgca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggggggcccgatg---cgcctcagcccgccccgggccctgctcctcggg------------------------------gctgccctgggagctgca&quot;| __truncated__
+##   ..$ : chr &quot;caaggggtcactgcaagccttcccggg---atgcggggcacccctcgagcgctggtcctctgg------------------------------gccgcactgggggcggca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggggggtgcagct---cgtctgagcgcccctcgagcgctggtactctgg------------------------------gcagtactgggggcggca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggggggtgcggct---cgcctgagcgcccctcaagcgctggtactctgg------------------------------gccgcactgggagcggca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggggggtgccgct---cgcctgagcgcccctcaagcgctggtactctgg------------------------------gccgcactgggagcggca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggagggtgccact---cgcctgagcgcccctcgagcgctggtactctgg------------------------------gccgcactcggggcggca&quot;| __truncated__
+##   ..$ : chr &quot;------------atgggggctgcagct---cgtctgagcgcccctcgagcgctggtactctgg------------------------------gctgcactgggggcagca&quot;| __truncated__
+##   ..$ : chr &quot;------------atgggggctgcagct---cgtctgagcgcccctcgagcgctggtactctgg------------------------------gctgcactgggggcagca&quot;| __truncated__
+##   ..$ : chr &quot;------------atgggggctgcagct---cgtctgagcgcccctcgagcgctggtactctgg------------------------------gctgcactgggggcagca&quot;| __truncated__
+##   ..$ : chr &quot;------------atgggggctgcagct---cgtctgagcgcccctcgagcgctggtactctgg------------------------------gctgcactgggggcagca&quot;| __truncated__
+##   ..$ : chr &quot;------------atgggggctgcagct---cgtctgagcgcccctcgagcgctggtactctgg------------------------------gctgcactgggggcagca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggggggtgcagct---cgtctgaacgcccctcgagcgctgctactctgg------------------------------gccgcactgggggcggca&quot;| __truncated__
+##   ..$ : chr &quot;------------atgggggctgcagct---ggtctgaccgcccctcgagcgctggtactctgg------------------------------gccgcactgggggcggca&quot;| __truncated__
+##   ..$ : chr &quot;------------atgggggctgcagct---cgtctgagcgcccctcgagcgctggtactctgg------------------------------gctgcactgggggcagca&quot;| __truncated__
+##   ..$ : chr &quot;------------atggggggtgcagct---cgtctgagcgccccgcgagcgctggtactctgg------------------------------gctgcaatgggggcggca&quot;| __truncated__
+##   ..$ : chr &quot;------------atgggggttgctgct---cgtctgagcgttcctagggcgctggtactctgg------------------------------gccgcactgggggcggca&quot;| __truncated__
+##   ..$ : chr &quot;------------atgggggctgcagct---cgtctgagcgcccctcgagcgctggtactctgg------------------------------gctgcactgggggcagca&quot;| __truncated__
+##   ..$ : chr &quot;------------atgggggttgcagct---cgtctgagcgcccctcgagcgctggtactctgg------------------------------gccgcactgggggcggca&quot;| __truncated__
+##   ..$ : chr &quot;------------atgggggttgcagct---cgactgagcgcccctcgagcgctggtactctgg------------------------------gccgcactgggggcagca&quot;| __truncated__
+##   ..$ : chr &quot;------------atgggggctgccgct---cgtctgagcgcccctcgagcgctggtactctgg------------------------------gccgcactgggggcggca&quot;| __truncated__
+##   ..$ : chr &quot;---------------------------------------------------------------------------------------------------------------&quot;| __truncated__
+##   ..$ : chr &quot;---------------------------------------------------------------------------------------------------------------&quot;| __truncated__
+##   ..$ : chr &quot;---------------------------------------------------------------------------------------------------------------&quot;| __truncated__
+##   ..$ : chr &quot;---------------------------------------------------------------------------------------------------------------&quot;| __truncated__
+##   ..$ : chr &quot;---------------------------------atggagctgctgcaggccctctgctgtacg------------------------ctgctcctgcttttggcccggatg&quot;| __truncated__
+##   ..$ : chr &quot;---------------------------------atggagctgctgcaggccctctgctgtacg------------------------ctgctcctgcttttggcccggatg&quot;| __truncated__
+##   ..$ : chr &quot;------------------------atgccgtcgccaggacaccacacatcattctgctgctccacggcaggatttatcgcttgctcagcaatcgttctgctttgcagttcc&quot;| __truncated__
+##   ..$ : chr &quot;------------------------atgccgtcgccaggacaccacacatcattctgctgctccacggcaggatttatcgcttgctcagcaatcgttctgctttgcagttcc&quot;| __truncated__
+##  $ com: logi NA
+##  - attr(*, &quot;class&quot;)= chr &quot;alignment&quot;</code></pre>
+<pre class="r"><code>carps$nb</code></pre>
+<pre><code>## [1] 61</code></pre>
+<pre class="r"><code>carps$nam</code></pre>
+<pre><code>##  [1] &quot;Dasypus_novemcinctus_CARP_X&quot;       
+##  [2] &quot;Xenopus_tropicalis_CARP_X&quot;         
+##  [3] &quot;Oreochromis_niloticus_CARP_X&quot;      
+##  [4] &quot;Latimeria_chalumnae_CARP_X&quot;        
+##  [5] &quot;Rattus_norvegicus_CARP_X&quot;          
+##  [6] &quot;Anolis_carolinensis_CARP_X&quot;        
+##  [7] &quot;Bos_taurus_CARP_X&quot;                 
+##  [8] &quot;Pelodiscus_sinensis_CARP_X&quot;        
+##  [9] &quot;Gallus_gallus_CARP_X&quot;              
+## [10] &quot;Taeniopygia_guttata_CARP_X&quot;        
+## [11] &quot;Monodelphis_domestica-CA10_CARP_X&quot; 
+## [12] &quot;Homo_sapiens_CARP_X&quot;               
+## [13] &quot;Pan_troglodytes_CARP_X&quot;            
+## [14] &quot;Macaca_mulatta_CARP_X&quot;             
+## [15] &quot;Pongo_abelii_CARP_X&quot;               
+## [16] &quot;Nomascus_leucogenys_CARP_X&quot;        
+## [17] &quot;Callithrix_jacchus_CARP_X&quot;         
+## [18] &quot;Felis_catus_CARP_X&quot;                
+## [19] &quot;Canis_familiaris_CARP_X&quot;           
+## [20] &quot;Ictidomys_tridecemlineatus_CARP_X&quot; 
+## [21] &quot;Mustela_putorius_furo_CARP_X&quot;      
+## [22] &quot;Cavia_porcellus_CARP_X&quot;            
+## [23] &quot;Oryctolagus_cuniculus_CARP_X&quot;      
+## [24] &quot;Equus_caballus_CARP_X&quot;             
+## [25] &quot;Pteropus_vampyrus_CARP_X&quot;          
+## [26] &quot;Tursiops_truncatus_CARP_X&quot;         
+## [27] &quot;Gadus_morhua_CARP_X&quot;               
+## [28] &quot;Gasterosteus_aculeatus_CARP_X&quot;     
+## [29] &quot;Xiphophorus_maculatus_CARP_X&quot;      
+## [30] &quot;Takifugu_rubripes_CARP_X&quot;          
+## [31] &quot;Otolemur_garnettii_CARP_X&quot;         
+## [32] &quot;Anolis_carolinensis_CARP_XI&quot;       
+## [33] &quot;Sarcophilus_harrisii_CARP_XI&quot;      
+## [34] &quot;Monodelphis_domestica_CARP_XI&quot;     
+## [35] &quot;Cavia_porcellus_CARP_XI&quot;           
+## [36] &quot;Sus_scrofa_CARP_XI&quot;                
+## [37] &quot;Rattus_norvegicus_CARP_XI&quot;         
+## [38] &quot;Mus_musculus_CARP_XI&quot;              
+## [39] &quot;Loxodonta_africana_CARP_XI&quot;        
+## [40] &quot;Homo_sapiens_CARP_XI&quot;              
+## [41] &quot;Pan_troglodytes_CARP_XI&quot;           
+## [42] &quot;Gorilla_gorilla_CARP_XI&quot;           
+## [43] &quot;Pongo_abelii_CARP_XI&quot;              
+## [44] &quot;Nomascus_leucogenys_CARP_XI&quot;       
+## [45] &quot;Tursiops_truncatus_CARP_XI&quot;        
+## [46] &quot;Otolemur_garnettii_CARP_XI&quot;        
+## [47] &quot;Callithrix_jacchus_CARP_XI&quot;        
+## [48] &quot;Ictidomys_tridecemlineatus_CARP_XI&quot;
+## [49] &quot;Mustela_putorius_furo_CARP_XI&quot;     
+## [50] &quot;Macaca_mulatta_CARP_XI&quot;            
+## [51] &quot;Ailuropoda_melanoleuca_CARP_XI&quot;    
+## [52] &quot;Felis_catus_CARP_XI&quot;               
+## [53] &quot;Canis_familiaris_CARP_XI&quot;          
+## [54] &quot;Xenopus_tropicalis_CARP_XI&quot;        
+## [55] &quot;Latimeria_chalumnae_CARP_XI&quot;       
+## [56] &quot;Caenorhabditis_elegans_CARP_X&quot;     
+## [57] &quot;Caenorhabditis_elegans_CARP_XI&quot;    
+## [58] &quot;Drosophila_melanogaster_1_CARP_X&quot;  
+## [59] &quot;Drosophila_melanogaster_1_CARP_XI&quot; 
+## [60] &quot;Drosophila_melanogaster_2_CARP_X&quot;  
+## [61] &quot;Drosophila_melanogaster_2_CARP_XI&quot;</code></pre>
+<pre class="r"><code>#carps$seq</code></pre>
+</div>
+<div id="read.fastaread-fasta-format-files" class="section level4">
+<h4>15-read.fasta():read fasta format files</h4>
+<pre class="r"><code>file_name_fa &lt;- &quot;Acinetobacter_ADP1_uid6159.fasta&quot;
+fastafile &lt;- read.fasta(file = &quot;../molecular_data_analysis_using_r/R_project/Acinetobacter_ADP1_uid6159.fasta&quot;,
+                        as.string = TRUE,
+                        set.attributes = FALSE,
+                        seqtype = &quot;DNA&quot;
+                        )</code></pre>
+</div>
+<div id="reverse.alignaligns-protein-coding-nucletides-using-as-a-guide-the-alignment-of-the-corresponding-protein-sequences." class="section level4">
+<h4>16-reverse.align():aligns protein coding nucletides, using as a guide the alignment of the corresponding protein sequences.</h4>
+<pre class="r"><code>nucl.file &lt;- system.file(&#39;sequences/bordetella.fasta&#39;, package = &#39;seqinr&#39;)
+triplet &lt;- read.fasta(nucl.file)
+
+protaln.file &lt;- system.file(&#39;sequences/bordetella.pep.aln&#39;, package = &#39;seqinr&#39;)
+triplet.pep&lt;- read.alignment(protaln.file, format = &#39;clustal&#39;)
+
+reverse.align(nucl.file = nucl.file, protaln.file = protaln.file,
+              input.format = &#39;clustal&#39;, out.file = &#39;test.revalign&#39;)</code></pre>
+<pre><code>## NULL</code></pre>
+<pre class="r"><code>res.new &lt;- read.alignment(&quot;test.revalign&quot;, format = &quot;fasta&quot;)</code></pre>
+</div>
+<div id="consensusproduce-a-consensus-sequence-based-of-the-resutl-of-multiple-alignment" class="section level4">
+<h4>19-consensus():produce a consensus sequence based of the resutl of multiple alignment</h4>
+<pre class="r"><code>protaln.file &lt;- system.file(&#39;sequences/bordetella.pep.aln&#39;, package = &#39;seqinr&#39;)
+triplet.pep&lt;- read.alignment(protaln.file, format = &#39;clustal&#39;)
+consensus_seq &lt;- c2s(consensus(triplet.pep))</code></pre>
+</div>
+<div id="kakscomputes-the-ratio-of-synonymous-and-non-synonymous-of-protein-coding-sequence" class="section level4">
+<h4>21-kaks():computes the ratio of synonymous and non synonymous of protein coding sequence</h4>
+<pre class="r"><code>carps.res&lt;-kaks(carps)
+kaks&lt;-as.matrix(carps.res$ka/carps.res$ks)
+density(kaks,na.rm = TRUE)</code></pre>
+<pre><code>## 
+## Call:
+##  density.default(x = kaks, na.rm = TRUE)
+## 
+## Data: kaks (3715 obs.);  Bandwidth &#39;bw&#39; = 0.00366
+## 
+##        x                  y          
+##  Min.   :-0.01098   Min.   : 0.0000  
+##  1st Qu.: 0.10809   1st Qu.: 0.0000  
+##  Median : 0.22715   Median : 0.1164  
+##  Mean   : 0.22715   Mean   : 2.0983  
+##  3rd Qu.: 0.34622   3rd Qu.: 0.7050  
+##  Max.   : 0.46528   Max.   :43.2082</code></pre>
+<pre class="r"><code>plot(density(kaks,na.rm = TRUE))</code></pre>
+<p><img src="seqinr_tutorial_files/figure-html/unnamed-chunk-23-1.png" width="672" /></p>
+<pre class="r"><code>#choosebank()
+#choosebank(bank = &quot;genbank&quot;, infobank = TRUE)
+ls()</code></pre>
+<pre><code>##  [1] &quot;a&quot;             &quot;align_file&quot;    &quot;align_seq&quot;     &quot;b&quot;            
+##  [5] &quot;c&quot;             &quot;carps&quot;         &quot;carps.res&quot;     &quot;charc&quot;        
+##  [9] &quot;codon_freq&quot;    &quot;codon_prop&quot;    &quot;consensus_seq&quot; &quot;dali&quot;         
+## [13] &quot;entry_index&quot;   &quot;fastafile&quot;     &quot;fastafilename&quot; &quot;ff&quot;           
+## [17] &quot;file_name_fa&quot;  &quot;frame_n&quot;       &quot;fs&quot;            &quot;GC_score&quot;     
+## [21] &quot;genbankfile&quot;   &quot;headers&quot;       &quot;hm_ttn_fa&quot;     &quot;hm_ttn_seq_1&quot; 
+## [25] &quot;hm_ttn_seq_2&quot;  &quot;hoxb1_protein&quot; &quot;i&quot;             &quot;k&quot;            
+## [29] &quot;kaks&quot;          &quot;myseq1&quot;        &quot;myseq2&quot;        &quot;myseq3&quot;       
+## [33] &quot;nth_base&quot;      &quot;nucl.file&quot;     &quot;one_aa&quot;        &quot;protaln.file&quot; 
+## [37] &quot;res.new&quot;       &quot;rev_seq&quot;       &quot;seq&quot;           &quot;seq_index&quot;    
+## [41] &quot;seqAA&quot;         &quot;seqs&quot;          &quot;size&quot;          &quot;three_aa&quot;     
+## [45] &quot;triplet&quot;       &quot;triplet.pep&quot;   &quot;win.size&quot;</code></pre>
+<pre class="r"><code>#choosebank(&quot;refseq&quot;)
+#bb &lt;- query(&quot;bb&quot;, &quot; sp=Borrelia burgdorferi&quot;)
+
+hoxb1_protein &lt;- read.fasta(&quot;../molecular_data_analysis_using_r/MDAuR-master/Chapter_02/data/human_hoxb1_protein.fasta&quot;,seqtype = &quot;AA&quot;)
+#frequency analysis
+table(hoxb1_protein)</code></pre>
+<pre><code>## hoxb1_protein
+##  A  C  D  E  F  G  H  I  K  L  M  N  P  Q  R  S  T  V  W  Y 
+## 29  5  9 19 11 29  4  2 12 16  4 11 39 15 15 37 17  8  2 17</code></pre>
+<pre class="r"><code>sort(table(hoxb1_protein))</code></pre>
+<pre><code>## hoxb1_protein
+##  I  W  H  M  C  V  D  F  N  K  Q  R  L  T  Y  E  A  G  S  P 
+##  2  2  4  4  5  8  9 11 11 12 15 15 16 17 17 19 29 29 37 39</code></pre>
+<pre class="r"><code>#make the sequence a single string, instead of single-character array
+hoxb1_protein &lt;- read.fasta(&quot;../molecular_data_analysis_using_r/MDAuR-master/Chapter_02/data/human_hoxb1_protein.fasta&quot;, 
+                            seqtype = &quot;AA&quot;, 
+                            strip.desc = TRUE,#remove &quot;&gt;&quot; at the begining of annotation
+                            as.string = TRUE,
+                            seqonly = TRUE #return sequence only
+                            )
+#turn sequence to character and count the many are there
+length(s2c(hoxb1_protein[[1]]))</code></pre>
+<pre><code>## [1] 301</code></pre>
+<pre class="r"><code>#count how many different occurence are there
+sort(table(s2c(hoxb1_protein[[1]])))</code></pre>
+<pre><code>## 
+##  I  W  H  M  C  V  D  F  N  K  Q  R  L  T  Y  E  A  G  S  P 
+##  2  2  4  4  5  8  9 11 11 12 15 15 16 17 17 19 29 29 37 39</code></pre>
+<pre class="r"><code>#count the fraction G and C
+GC(s2c(hoxb1_protein[[1]]))</code></pre>
+<pre><code>## [1] 0.425</code></pre>
+<pre class="r"><code>#count all possible words in a sequence with a sliding window of size = wordsize
+seq &lt;- &quot;aaccttgg&quot;
+count(s2c(seq),wordsize = 2, by = 1 )</code></pre>
+<pre><code>## 
+## aa ac ag at ca cc cg ct ga gc gg gt ta tc tg tt 
+##  1  1  0  0  0  1  0  1  0  0  1  0  0  0  1  1</code></pre>
+<pre class="r"><code>#translate a DNA sequence into protein
+translate(s2c(&quot;TAGATAAGCGTGTTTGTTTCCCCCCCGTAGTGTGTAAGTGTACGGGGGTAG&quot;),
+          frame = 0,#choose the ORF
+          sens = F,#chose F for forward sense and R for reverse sense
+          numcode = 1#select the genetic code. The basic is 1, besides 23 others
+          )</code></pre>
+<pre><code>##  [1] &quot;*&quot; &quot;I&quot; &quot;S&quot; &quot;V&quot; &quot;F&quot; &quot;V&quot; &quot;S&quot; &quot;P&quot; &quot;P&quot; &quot;*&quot; &quot;C&quot; &quot;V&quot; &quot;S&quot; &quot;V&quot; &quot;R&quot; &quot;G&quot; &quot;*&quot;</code></pre>
+<pre class="r"><code>#reading multi-record fasta file
+multi_hoxb1_protein &lt;- read.fasta(&quot;../molecular_data_analysis_using_r/MDAuR-master/Chapter_02/data/multi_hoxb1_protein.fasta&quot;,
+                                  seqtype = &quot;AA&quot;,
+                                  strip.desc = TRUE,
+                                  set.attributes = F,
+                                  as.string = T
+                                  )
+names(multi_hoxb1_protein)</code></pre>
+<pre><code>## [1] &quot;Homo&quot;   &quot;Pan&quot;    &quot;Macaca&quot;</code></pre>
+<pre class="r"><code>multi_hoxb1_protein$Homo</code></pre>
+<pre><code>## [1] &quot;MDYNRMNSFLEYPLCNRGPSAYSAHSAPTSFPPSSAQAVDSYASEGRYGGGLSSPAFQQNSGYPAQQPPSTLGVPFPSSAPSGYAPAACSPSYGPSQYYPLGQSEGDGGYFHPSSYGAQLGGLSDGYGAGGAGPGPYPPQHPPYGNEQTASFAPAYADLLSEDKETPCPSEPNTPTARTFDWMKVKRNPPKTAKVSEPGLGSPSGLRTNFTTRQLTELEKEFHFNKYLSRARRVEIAATLELNETQVKIWFQNRRMKQKKREREEGRVPPAPPGCPKEAAGDASDQSTCTSPEASPSSVTS&quot;</code></pre>
+<pre class="r"><code>table(s2c(multi_hoxb1_protein$Pan))</code></pre>
+<pre><code>## 
+##  A  C  D  E  F  G  H  I  K  L  M  N  P  Q  R  S  T  V  W  Y 
+## 29  5  9 18 11 30  4  2 12 16  4 11 38 15 15 38 17  8  2 17</code></pre>
+<pre class="r"><code>#
+char_seq &lt;- rapply(multi_hoxb1_protein, s2c, how = &quot;list&quot;)
+length_seq &lt;- rapply(char_seq, length, how = &quot;list&quot;)
+seq_equal_301 &lt;- char_seq[length_seq==301]
+write.fasta(seq_equal_301, names = names(seq_equal_301)  ,open =&quot;w&quot;,file.out = &quot;seq_301.txt&quot; , nbchar = 60)
+#inspect available databases
+choosebank(infobank = TRUE)</code></pre>
+<pre><code>##               bank status
+## 1          genbank     on
+## 2             embl     on
+## 3          emblwgs     on
+## 4        swissprot     on
+## 5          ensembl     on
+## 6         hogenom7     on
+## 7          hogenom     on
+## 8       hogenomdna     on
+## 9      hovergendna     on
+## 10        hovergen     on
+## 11        hogenom5     on
+## 12     hogenom5dna     on
+## 13        hogenom4     on
+## 14     hogenom4dna     on
+## 15        homolens     on
+## 16     homolensdna     on
+## 17       hobacnucl     on
+## 18       hobacprot     on
+## 19         phever2     on
+## 20      phever2dna     on
+## 21          refseq     on
+## 22       refseq16s     on
+## 23        greviews     on
+## 24       bacterial    off
+## 25        archaeal     on
+## 26       protozoan     on
+## 27     ensprotists     on
+## 28        ensfungi     on
+## 29      ensmetazoa     on
+## 30       ensplants     on
+## 31 ensemblbacteria     on
+## 32            mito     on
+## 33     polymorphix     on
+## 34          emglib     on
+## 35   refseqViruses     on
+## 36          ribodb     on
+## 37          taxodb     on
+##                                                                               info
+## 1                  GenBank Release 227 (15 August 2018) Last Updated: Oct 13, 2018
+## 2  EMBL Nucleotide Archive Release 137 (September 2018) Last Updated: Oct  7, 2018
+## 3                                  EMBL Whole Genome Shotgun sequences (July 2018)
+## 4                             UniProt Knowledgebase Release 2017_08 of 30-Aug-2017
+## 5                               Ensembl 85 - (10/03/16) Last Updated: Oct  3, 2016
+## 6     HOGENOM - protein data - Release 07 (Oct 30,2016) Last Updated: Dec 15, 2017
+## 7     HOGENOM - protein data - Release 06 (Oct 30,2011) Last Updated: May 10, 2012
+## 8     HOGENOM - genomic data - Release 06 (Oct 30,2011) Last Updated: Nov 14, 2011
+## 9    HOVERGEN - genomic data - Release 49 (Dec 22 2009) Last Updated: Dec 22, 2009
+## 10   HOVERGEN - protein data - Release 49 (Dec 22 2009) Last Updated: Dec 22, 2009
+## 11    HOGENOM - protein data - Release 05 (Oct 30,2009) Last Updated: Oct 30, 2009
+## 12    HOGENOM - genomic data - Release 05 (Oct 30,2009) Last Updated: Oct 30, 2009
+## 13   HOGENOM - protein data - Release 04 (Sept 18,2007) Last Updated: Feb 27, 2008
+## 14   HOGENOM - genomic data - Release 04 (Sept 18,2007) Last Updated: Feb 21, 2008
+## 15      HOMOLENS 5 - Homologous genes from Ensembl(60)\t Last Updated: Feb 17, 2011
+## 16      HOMOLENS 5 - Homologous genes from Ensembl(60)\t Last Updated: Feb 17, 2011
+## 17                         HOBACGEN - genomic data - Release 10 (February 12 2002)
+## 18                         HOBACGEN - protein data - Release 10 (February 12 2002)
+## 19     PhEVER - protein data - Release 2 (June 1  2010) Last Updated: Jul 22, 2010
+## 20     PhEVER - genomic data - Release 2 (June 1  2010) Last Updated: Jul 22, 2010
+## 21                                Refseq RNA Sequences. Last Updated: Jan 27, 2018
+## 22                        Refseq RNA 16S 23S Sequences. Last Updated: Jan 29, 2018
+## 23                               Genome Review from EBI Last Updated: Jan 24, 2013
+## 24                                                          NCBI Bacterial Genomes
+## 25                           Archaeal Genomes from NCBI Last Updated: Aug 25, 2015
+## 26                          Protozoan Genomes from NCBI Last Updated: Feb 23, 2011
+## 27                     Ensembl protists 86 - (10/05/16) Last Updated: Oct  5, 2016
+## 28                        Ensembl fungi 86 - (10/09/16) Last Updated: Oct  9, 2016
+## 29                     Ensembl protists 86 - (10/05/16) Last Updated: Oct  5, 2016
+## 30                     Ensembl protists 86 - (10/16/16) Last Updated: Oct 16, 2016
+## 31            Ensembl Bacterial Genomes 21 - (02/23/14) Last Updated: Feb 27, 2014
+## 32  Mitochondrial sequences - Release 41 (May 19, 2010) Last Updated: Jul  9, 2010
+## 33                                           POLYBASE - Release 1  (June 20, 2003)
+## 34                                             EMGLib Release 5 (December 9, 2003)
+## 35                   RNA sequences - numrel1 (daterel1) Last Updated: May 10, 2012
+## 36                                                                          RiboDB
+## 37                                                              taxonomic database</code></pre>
+<pre class="r"><code>head(lseqinr())</code></pre>
+<pre><code>## [1] &quot;a&quot;          &quot;aaa&quot;        &quot;AAstat&quot;     &quot;acnucclose&quot; &quot;acnucopen&quot; 
+## [6] &quot;al2bp&quot;</code></pre>
+</div>
+</div>
+</div>
+
+
+
+
+</div>
+
+<script>
+
+// add bootstrap table styles to pandoc tables
+function bootstrapStylePandocTables() {
+  $('tr.header').parent('thead').parent('table').addClass('table table-condensed');
+}
+$(document).ready(function () {
+  bootstrapStylePandocTables();
+});
+
+
+</script>
+
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+  (function () {
+    var script = document.createElement("script");
+    script.type = "text/javascript";
+    script.src  = "https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML";
+    document.getElementsByTagName("head")[0].appendChild(script);
+  })();
+</script>
+
+</body>
+</html>
