@@ -6,7 +6,7 @@ title: "index"
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-
+This page includes a number of tutorials for using some of the most widely used Bioconductor packages.
 ```{r cars}
 
 ```
