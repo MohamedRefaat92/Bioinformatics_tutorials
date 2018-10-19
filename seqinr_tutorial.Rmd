@@ -1,0 +1,325 @@
+---
+title: "seqinr_tutorial"
+output:
+  html_document:
+    df_print: paged
+---
+##seqinr
+ 
+### [seqinr](http://seqinr.r-forge.r-project.org/) is an R package for the **analysis**, **visualisation** and **managment** of biological sequences.
+
+#####Let's start by installing then loading the package
+```{r}
+# install.packages("seqinr")#installing
+
+library(seqinr)#loading the package in the current session
+```
+
+#####We will begin the tutorial by exploring the top useful functions in the package and what sort of biological questions they can answer.
+
+####splitseq()
+Usage:
+. split a sequence to number of non-overlapping subsequences of a certain size starting at a certain frame
+Questions:
+. given a coding DNA/RNA sequence, what are the codons in starting at the first frame
+```{r}
+size <- 3 # size of the subsequence
+frame_n <- 0 #the starting position to split(0,1,2)
+splitseq(seq = s2c("acggattagctagtttggc"), frame = frame_n, word = size)
+```
+
+####18-translate():translate DNA to AA
+```{r}
+translate(seq = s2c("cagtacgtagacg"),frame = 0, sens = "R")
+```
+
+####11-getSequence():extract sequence
+```{r}
+seqAA <- read.fasta(file=system.file("sequences/seqAA.fasta", package ="seqinr"),
+                    seqtype = "AA",
+                    set.attributes = F)
+getSequence(seqAA)
+getLength(getSequence(seqAA))
+a <- ("cgtagaaatgcgcgc")
+c <- ("cgtggggtaaatcctgc")
+b <- ("gtgtccccaaaaagt")
+seqs <- list(a,b,c)
+seqs <- mapply(s2c, seqs)
+nth_base <- function(n, seq){#returns the nth base in a sequence
+  x <- seq[n]
+  return(x)
+}
+mapply(nth_base,2,seqs)
+```
+
+
+####8-gb2fasta():convert genebank file format into fasta.
+```{r}
+genbankfile <- system.file("sequences/ct.gbk.gz", package = "seqinr")
+fastafilename <- "Acinetobacter_ADP1_uid6159.fasta"
+gb2fasta(genbankfile, fastafilename)
+readLines(fastafilename)[1:5]
+```
+
+
+####4-c2s() and S2c():Converts characters into sequences, and vice versa
+
+```{r}
+seq <- "acgtacgta"
+charc <- s2c(seq)
+c2s(charc)
+```
+
+####20-dist.alignment():calculates pairwise distance of two aligned sequences
+```{r}
+carps <- read.alignment("../MDAuR-master/Chapter_02/data/vertebrate_CARPs.aln",format="clustal")
+dali <- dist.alignment(carps,matrix = "identity")
+density(dali)
+plot(density(dali))#distribution of values in pairwise-distance matrix
+```
+
+
+####5-comp():complement a DNA sequence of characters
+```{r}
+comp(s2c("acgt"))
+rev(comp(s2c("acgt")))#reverse complement sequence
+```
+
+
+####1-read.fasta():reads fasta files
+
+```{r}
+file_name_fa <- "Acinetobacter_ADP1_uid6159.fasta" #name of a fasta file in the current directory
+fastafile <- read.fasta(file = file_name_fa,
+                        as.string = TRUE,
+                        set.attributes = FALSE,
+                        seqtype = "DNA"
+                        )
+```
+
+
+####1-AAstat()
+#####Usage: 
+-This function plots and calculates simple sequence statistics and physico-chemical characterstics of a sequence of amino acids
+
+#####Questions: 
+1. why
+
+```{r}
+seqAA <- read.fasta(file=system.file("sequences/seqAA.fasta", package ="seqinr"),
+                    seqtype = "AA",
+                    set.attributes = F
+                    )
+AAstat(seq = seqAA[[1]], plot = TRUE)
+names(AAstat(seq = seqAA[[1]], plot = TRUE))
+AAstat(seq = seqAA[[1]], plot = FALSE)$Pi #calculates theoretical isoelectric points
+barplot(unlist(AAstat(seq = seqAA[[1]], plot = FALSE)$Prop),ylim = c(0,0.6),cex.names = 0.7)
+```
+####3-a() and aaa():converts amico acid three letter code into single letter, and vice versa.
+```{r}
+one_aa <- a("Ala")
+three_aa <- aaa("A")
+```
+
+####6-computePI():compute theoretical isoelectric point
+```{r}
+computePI(seqAA[[1]])
+```
+
+####7-count():count the occurences of oligos of size = wordsize
+```{r}
+fs <- read.fasta(file = system.file("sequences/someORF.fsa", package = "seqinr"),
+                 seqtype = "DNA")
+
+count(s2c("acgttttcgggttaaa"),wordsize = 3, alphabet = c("g","a","t","c"))
+
+count(fs[[1]], wordsize = 1, alphabet = c("g", "t", "a", "c"))/getLength(fs[[1]])#proportion of each nucleutide in a sequence
+
+file_name_fa <- "Acinetobacter_ADP1_uid6159.fasta"
+fastafile <- read.fasta(file = file_name_fa,
+                        as.string = FALSE,
+                        set.attributes = FALSE,
+                        seqtype = "DNA"
+)
+codon_freq <- count(fastafile[[1]], wordsize = 3, alphabet = c("a", "c", "g", "t"))
+codon_prop <- codon_freq/sum(codon_freq)
+barplot(codon_prop, las = 2)#plot the the frequency of codons on the sequence
+
+#read the fasta file
+hm_ttn_fa <- read.fasta(file = "../MDAuR-master/Chapter_02/data/human_ttn_genomic_dna.fasta",seqtype = "DNA",strip.desc = TRUE)
+#extract the sequecne only for further analysis
+hm_ttn_seq_1 <- hm_ttn_fa[[1]]
+#..or
+hm_ttn_seq_2 <- getSequence(hm_ttn_fa)
+class(hm_ttn_seq_1)
+#find the frequency and proportion each base in the sequence
+#frequency
+table(hm_ttn_seq_1)
+#..or
+count(hm_ttn_seq_2[[1]],wordsize = 1, alphabet = c("a", "c", "g"))
+#probortion
+table(hm_ttn_seq_1)/length(hm_ttn_seq_1)
+#..or
+count(hm_ttn_seq_1,wordsize = 1, alphabet = c("a", "c", "g")) /getLength(hm_ttn_seq_1)
+```
+
+####2-GC():calucates the fraction of G+C in DNA sequence
+```{r}
+myseq1 <- "attcgcgcgcg"
+myseq2 <- "cttgcg"
+myseq3 <- paste0(myseq2,"ssss")
+GC(s2c(myseq2))==GC(s2c(myseq3))
+GC(s2c(myseq2), exact = FALSE)==GC(s2c(myseq3), exact = TRUE)
+
+win.size <- 100
+GC_score <- vector()
+k <- 1
+for (i in k:(length(hm_ttn_seq_1)-win.size)){
+  GC_score[i] <- GC(hm_ttn_seq_1[i:(i+win.size)])
+}
+
+par(mfrow=c(2,2))
+for (win.size in c( 100, 500, 1000, 10000)){
+  GC_score <- vector()
+  for (i in k:(length(hm_ttn_seq_1)-win.size)){
+    GC_score[i] <- GC(hm_ttn_seq_1[i:(i+win.size)])
+  }
+  plot(GC_score, type = "l")
+}
+par(mfrow=c(1,1))
+```
+ 
+
+####9-getlength():length of a sequence
+```{r}
+getLength(seqAA)
+ff <- system.file("sequences/someORF.fsa", package = "seqinr")
+fs <- read.fasta(ff)
+getLength(fs)#length of fasta enteries
+getLength.SeqFastaAA(fs)#number of fasta enteries
+
+headers <- getAnnot(fs)#get sequence header
+entry_index <- grep("reverse complement", headers)#find "reverse complement" sequences
+rev_seq <- fs[entry_index]#select "reverse complement" sequence 
+```
+
+####10-getNames():similar to names
+```{r}
+all(names(fs)==getName(fs))
+```
+
+####12-getTrans():translate codons to corresponding amino acids
+```{r}
+seq_index<- which(getLength(fs)==min(getLength(fs)))#select the shortest sequence
+getTrans(fs[[seq_index]])
+```
+
+
+####13-pmw():find protein molecular weight
+```{r}
+pmw(seqAA[[1]])
+```
+
+####14-read.alignment():read mutliple alignment files
+```{r}
+align_file <- system.file("sequences/test.aln", package = "seqinr")
+align_seq <- read.alignment(align_file, format = "clustal")
+
+carps<-read.alignment("../MDAuR-master/Chapter_02/data/vertebrate_CARPs.aln",format="clustal")
+str(carps)
+carps$nb
+carps$nam
+#carps$seq
+```
+
+####15-read.fasta():read fasta format files
+```{r}
+file_name_fa <- "Acinetobacter_ADP1_uid6159.fasta"
+fastafile <- read.fasta(file = file_name_fa,
+                        as.string = TRUE,
+                        set.attributes = FALSE,
+                        seqtype = "DNA"
+                        )
+```
+
+
+####16-reverse.align():aligns protein coding nucletides, using as a guide the alignment of the corresponding protein sequences.
+```{r}
+nucl.file <- system.file('sequences/bordetella.fasta', package = 'seqinr')
+triplet <- read.fasta(nucl.file)
+
+protaln.file <- system.file('sequences/bordetella.pep.aln', package = 'seqinr')
+triplet.pep<- read.alignment(protaln.file, format = 'clustal')
+
+reverse.align(nucl.file = nucl.file, protaln.file = protaln.file,
+              input.format = 'clustal', out.file = 'test.revalign')
+res.new <- read.alignment("test.revalign", format = "fasta")
+```
+
+####19-consensus():produce a consensus sequence based of the resutl of multiple alignment
+```{r}
+protaln.file <- system.file('sequences/bordetella.pep.aln', package = 'seqinr')
+triplet.pep<- read.alignment(protaln.file, format = 'clustal')
+consensus_seq <- c2s(consensus(triplet.pep))
+```
+
+####21-kaks():computes the ratio of synonymous and non synonymous of protein coding sequence
+```{r}
+carps.res<-kaks(carps)
+kaks<-as.matrix(carps.res$ka/carps.res$ks)
+density(kaks,na.rm = TRUE)
+plot(density(kaks,na.rm = TRUE))
+
+#choosebank()
+#choosebank(bank = "genbank", infobank = TRUE)
+ls()
+
+#choosebank("refseq")
+#bb <- query("bb", " sp=Borrelia burgdorferi")
+
+hoxb1_protein <- read.fasta("../MDAuR-master/Chapter_02/data/human_hoxb1_protein.fasta",seqtype = "AA")
+#frequency analysis
+table(hoxb1_protein)
+sort(table(hoxb1_protein))
+#make the sequence a single string, instead of single-character array
+hoxb1_protein <- read.fasta("../MDAuR-master/Chapter_02/data/human_hoxb1_protein.fasta", 
+                            seqtype = "AA", 
+                            strip.desc = TRUE,#remove ">" at the begining of annotation
+                            as.string = TRUE,
+                            seqonly = TRUE #return sequence only
+                            )
+#turn sequence to character and count the many are there
+length(s2c(hoxb1_protein[[1]]))
+#count how many different occurence are there
+sort(table(s2c(hoxb1_protein[[1]])))
+#count the fraction G and C
+GC(s2c(hoxb1_protein[[1]]))
+#count all possible words in a sequence with a sliding window of size = wordsize
+seq <- "aaccttgg"
+count(s2c(seq),wordsize = 2, by = 1 )
+#translate a DNA sequence into protein
+translate(s2c("TAGATAAGCGTGTTTGTTTCCCCCCCGTAGTGTGTAAGTGTACGGGGGTAG"),
+          frame = 0,#choose the ORF
+          sens = F,#chose F for forward sense and R for reverse sense
+          numcode = 1#select the genetic code. The basic is 1, besides 23 others
+          )
+#reading multi-record fasta file
+multi_hoxb1_protein <- read.fasta("../MDAuR-master/Chapter_02/data/multi_hoxb1_protein.fasta",
+                                  seqtype = "AA",
+                                  strip.desc = TRUE,
+                                  set.attributes = F,
+                                  as.string = T
+                                  )
+names(multi_hoxb1_protein)
+multi_hoxb1_protein$Homo
+table(s2c(multi_hoxb1_protein$Pan))
+#
+char_seq <- rapply(multi_hoxb1_protein, s2c, how = "list")
+length_seq <- rapply(char_seq, length, how = "list")
+seq_equal_301 <- char_seq[length_seq==301]
+write.fasta(seq_equal_301, names = names(seq_equal_301)  ,open ="w",file.out = "seq_301.txt" , nbchar = 60)
+#inspect available databases
+choosebank(infobank = TRUE)
+head(lseqinr())
+
+```
