@@ -1,7 +1,7 @@
 name: "seqinr_tutorial"
 output_dir: "docs"
 navbar:
-  title: "seqinr_tutorial"
+  title: "Biconductor Essentials"
   left:
   - text: "Home"
     href: index.html
